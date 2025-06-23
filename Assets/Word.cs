@@ -8,7 +8,7 @@ public class Word {
 	public string word;
 	private int typeIndex;
 
-	WordDisplay display;
+	public WordDisplay display;
     public bool isDisplayOnly { get; private set; }
 
 	public Word (string _word, WordDisplay _display, bool _isDisplayOnly = false)

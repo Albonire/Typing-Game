@@ -45,29 +45,41 @@ public class WordManager : MonoBehaviour {
 	}
 
     public void TypeLetter(char letter) {
-        if (hasActiveWord) {
-            if (activeWord.GetNextLetter() == letter) {
-				activeWord.TypeLetter();
-			}
-        } else {
-            foreach(Word word in words) {
-                if (word.GetNextLetter() == letter) {
-					activeWord = word;
-					hasActiveWord = true;
-					word.TypeLetter();
-					break;
-				}
-			}
-		}
+        // Solo permitir tipear la palabra más abajo
+        Word lowestWord = null;
+        float lowestY = float.MaxValue;
+        foreach (Word word in words) {
+            if (word != null && word.word != null && word.display != null) {
+                float y = word.display.transform.position.y;
+                if (y < lowestY) {
+                    lowestY = y;
+                    lowestWord = word;
+                }
+            }
+        }
 
-        if (hasActiveWord && activeWord.WordTyped()) {
-            score++;
-            WordGenerator.WordCompleted();
-            UpdateUI();
-            hasActiveWord = false;
-			words.Remove(activeWord);
-		}
-	}
+        if (lowestWord != null) {
+            if (hasActiveWord && activeWord == lowestWord) {
+                if (activeWord.GetNextLetter() == letter) {
+                    activeWord.TypeLetter();
+                }
+            } else if (!hasActiveWord) {
+                if (lowestWord.GetNextLetter() == letter) {
+                    activeWord = lowestWord;
+                    hasActiveWord = true;
+                    lowestWord.TypeLetter();
+                }
+            }
+
+            if (hasActiveWord && activeWord.WordTyped()) {
+                score++;
+                WordGenerator.WordCompleted();
+                UpdateUI();
+                hasActiveWord = false;
+                words.Remove(activeWord);
+            }
+        }
+    }
 
     private void HandleLevelAdvanced(int level, string[] keys) {
         if (wordSpawner != null) {
