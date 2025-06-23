@@ -1,0 +1,67 @@
+# Unity-generated files
+*.asset -text
+*.mat -text
+*.menu -text
+*.prefab -text
+*.unity -text
+*.anim -text
+*.controller -text
+*.meta -text
+*.flare -text
+*.playable -text
+*.overrideController -text
+*.guiskin -text
+*.fontsettings -text
+*.preset -text
+*.asmdef -text
+*.asmref -text
+*.modulemap -text
+*.giparams -text
+*.physicsMaterial2D -text
+*.renderTexture -text
+*.scenestate -text
+*.terrainlayer -text
+*.shadervariants -text
+*.mask -text
+*.brush -text
+
+# Set text files to be normalized
+* text=auto
+
+# Denote all files that are truly binary and should not be modified.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.bmp binary
+*.tif binary
+*.tiff binary
+*.ico binary
+*.psd binary
+*.zip binary
+*.rar binary
+*.7z binary
+*.dll binary
+*.exe binary
+*.pdf binary
+*.doc binary
+*.docx binary
+*.xls binary
+*.xlsx binary
+*.ppt binary
+*.pptx binary
+*.odt binary
+*.ods binary
+*.odp binary
+*.a binary
+*.so binary
+*.aar binary
+*.jar binary
+*.mp3 binary
+*.wav binary
+*.ogg binary
+*.mp4 binary
+*.mov binary
+*.avi binary
+*.webm binary
+*.unitypackage binary
