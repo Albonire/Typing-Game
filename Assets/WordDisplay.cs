@@ -11,10 +11,12 @@ public class WordDisplay : MonoBehaviour {
     public float displayDuration = 5f; // Duración para palabras de solo mostrar
 
     private bool isDisplayOnlyWord = false;
+    private string originalWord; // Store the original word to manipulate text color
 
     public void SetWord (string word, bool isDisplayOnly = false)
 	{
 		text.text = word;
+        originalWord = word; // Store the original word
         isDisplayOnlyWord = isDisplayOnly;
 
         // Alternar automáticamente entre blanco y amarillo claro para contraste
@@ -36,8 +38,11 @@ public class WordDisplay : MonoBehaviour {
 	public void RemoveLetter ()
 	{
         if (isDisplayOnlyWord) return; // No se remueven letras de palabras de solo mostrar
-		text.text = text.text.Remove(0, 1);
-		text.color = Color.red;
+        if (string.IsNullOrEmpty(text.text)) return; // Protección extra
+        if (text.text.Length > 0) {
+            text.text = text.text.Remove(0, 1);
+            text.color = Color.red;
+        }
 	}
 
 	public void RemoveWord ()

@@ -24,14 +24,19 @@ public class Word {
 	public char GetNextLetter ()
 	{
         if (isDisplayOnly) return '\0'; // No letters to type for display-only words
-		return word[typeIndex];
+        if (typeIndex < word.Length)
+            return word[typeIndex];
+        else
+            return '\0'; // Retorna nulo si ya no hay letras
 	}
 
 	public void TypeLetter ()
 	{
         if (isDisplayOnly) return; // Cannot type display-only words
-		typeIndex++;
-		display.RemoveLetter();
+        if (typeIndex < word.Length) {
+            typeIndex++;
+            display.RemoveLetter();
+        }
 	}
 
 	public bool WordTyped ()

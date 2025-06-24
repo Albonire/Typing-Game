@@ -11,9 +11,11 @@ public class WordManager : MonoBehaviour {
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI progressText;
     public TextMeshProUGUI currentKeysText;
+    public Image handImage;
 
 	private bool hasActiveWord;
 	private Word activeWord;
+    private Coroutine handImageCoroutine;
 
     void OnEnable() {
         WordGenerator.OnLevelAdvanced += HandleLevelAdvanced;
@@ -25,6 +27,8 @@ public class WordManager : MonoBehaviour {
 
     void Start() {
         UpdateUI();
+        UpdateHandImage(WordGenerator.GetCurrentLevel());
+        ShowInitialLevelMessage();
     }
 
     void UpdateUI() {
@@ -45,11 +49,11 @@ public class WordManager : MonoBehaviour {
 	}
 
     public void TypeLetter(char letter) {
-        // Solo permitir tipear la palabra más abajo
+        // palabra más abajo
         Word lowestWord = null;
         float lowestY = float.MaxValue;
         foreach (Word word in words) {
-            if (word != null && word.word != null && word.display != null) {
+            if (word != null && word.word != null && word.display != null && word.GetNextLetter() != '\0') {
                 float y = word.display.transform.position.y;
                 if (y < lowestY) {
                     lowestY = y;
@@ -58,8 +62,8 @@ public class WordManager : MonoBehaviour {
             }
         }
 
-        if (lowestWord != null) {
-            if (hasActiveWord && activeWord == lowestWord) {
+        if (lowestWord != null && lowestWord.GetNextLetter() != '\0') {
+            if (hasActiveWord && activeWord == lowestWord && activeWord.GetNextLetter() != '\0') {
                 if (activeWord.GetNextLetter() == letter) {
                     activeWord.TypeLetter();
                 }
@@ -85,6 +89,45 @@ public class WordManager : MonoBehaviour {
         if (wordSpawner != null) {
             wordSpawner.SpawnDisplayMessage($"¡Nivel {level} desbloqueado! Teclas: {string.Join(", ", keys)}");
         }
+        UpdateHandImage(level);
         UpdateUI();
+    }
+
+    private void UpdateHandImage(int level) {
+        string imageName = "";
+        switch (level) {
+            case 1:
+                imageName = "indices";
+                break;
+            case 2:
+                imageName = "indicesymedios";
+                break;
+            default:
+                imageName = "indicesmediosyanulares";
+                break;
+        }
+        Sprite newSprite = Resources.Load<Sprite>(imageName);
+        if (newSprite != null && handImage != null) {
+            handImage.sprite = newSprite;
+            handImage.enabled = true;
+            if (handImageCoroutine != null) {
+                StopCoroutine(handImageCoroutine);
+            }
+            handImageCoroutine = StartCoroutine(HideHandImageAfterSeconds(4f));
+        }
+    }
+
+    private IEnumerator HideHandImageAfterSeconds(float seconds) {
+        yield return new WaitForSeconds(seconds);
+        if (handImage != null) {
+            handImage.enabled = false;
+        }
+    }
+
+    private void ShowInitialLevelMessage() {
+        if (wordSpawner != null) {
+            string msg = "¡Nivel 1 desbloqueado! Teclas: " + string.Join(", ", WordGenerator.GetCurrentLevelKeys());
+            wordSpawner.SpawnDisplayMessage(msg);
+        }
     }
 }
