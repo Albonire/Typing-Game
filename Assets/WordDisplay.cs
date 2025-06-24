@@ -19,18 +19,19 @@ public class WordDisplay : MonoBehaviour {
         originalWord = word; // Store the original word
         isDisplayOnlyWord = isDisplayOnly;
 
-        // Alternar automáticamente entre blanco y amarillo claro para contraste
-        Color chalkWhite = Color.white;
-        Color chalkYellow = new Color(1f, 0.95f, 0.6f); // Amarillo claro tipo tiza
-        text.color = (Random.value > 0.5f) ? chalkWhite : chalkYellow;
-
         if (isDisplayOnlyWord)
         {
+            // Color dorado para mensajes: #D9AD2B
+            text.color = new Color(0.850f, 0.678f, 0.169f, 1f);
             text.fontSize = 45;
             StartCoroutine(FadeAndRemove());
         }
         else
         {
+            // Color aleatorio para palabras normales
+            Color chalkWhite = Color.white;
+            Color chalkYellow = new Color(1f, 0.95f, 0.6f); // Amarillo claro tipo tiza
+            text.color = (Random.value > 0.5f) ? chalkWhite : chalkYellow;
             text.fontSize = 48;
         }
     }
