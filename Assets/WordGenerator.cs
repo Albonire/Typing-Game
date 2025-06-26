@@ -13,7 +13,7 @@ public class WordGenerator : MonoBehaviour {
         {5, new string[] {"j", "f", "k", "d", "g", "h", "s", "l", "a", ";"}}, // Nivel 5: añade a y ;
     };
 
-    // Palabras de ejemplo para cada nivel
+
     private static Dictionary<int, string[]> levelWords = new Dictionary<int, string[]>() {
         {1, new string[] {"jf", "fj", "jj", "ff"}},
         {2, new string[] {"jk", "fd", "kf", "dj", "jkfd", "fdjk"}},
@@ -24,7 +24,7 @@ public class WordGenerator : MonoBehaviour {
 
     private static int currentLevel = 1;
     private static int wordsCompletedInLevel = 0;
-    private static int wordsNeededToAdvance = 10; // Número de palabras necesarias para avanzar de nivel
+    private static int wordsNeededToAdvance = 10; 
 
     public static string GetRandomWord() {
         // Obtener palabras del nivel actual

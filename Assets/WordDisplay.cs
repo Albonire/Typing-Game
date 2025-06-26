@@ -28,7 +28,7 @@ public class WordDisplay : MonoBehaviour {
         }
         else
         {
-            // Color aleatorio para palabras normales
+            
             Color chalkWhite = Color.white;
             Color chalkYellow = new Color(1f, 0.95f, 0.6f); // Amarillo claro tipo tiza
             text.color = (Random.value > 0.5f) ? chalkWhite : chalkYellow;
@@ -41,8 +41,8 @@ public class WordDisplay : MonoBehaviour {
         if (isDisplayOnlyWord) return; // No se remueven letras de palabras de solo mostrar
         if (string.IsNullOrEmpty(text.text)) return; // Protección extra
         if (text.text.Length > 0) {
-            text.text = text.text.Remove(0, 1);
-            text.color = Color.red;
+		text.text = text.text.Remove(0, 1);
+		text.color = Color.red;
         }
 	}
 
@@ -71,6 +71,6 @@ public class WordDisplay : MonoBehaviour {
         }
 
         Destroy(gameObject);
-    }
+	}
 
 }

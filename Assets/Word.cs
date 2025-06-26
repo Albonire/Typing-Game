@@ -25,7 +25,7 @@ public class Word {
 	{
         if (isDisplayOnly) return '\0'; // No letters to type for display-only words
         if (typeIndex < word.Length)
-            return word[typeIndex];
+		return word[typeIndex];
         else
             return '\0'; // Retorna nulo si ya no hay letras
 	}
@@ -34,8 +34,8 @@ public class Word {
 	{
         if (isDisplayOnly) return; // Cannot type display-only words
         if (typeIndex < word.Length) {
-            typeIndex++;
-            display.RemoveLetter();
+		typeIndex++;
+		display.RemoveLetter();
         }
 	}
 

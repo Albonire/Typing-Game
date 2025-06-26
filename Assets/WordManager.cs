@@ -12,6 +12,19 @@ public class WordManager : MonoBehaviour {
     public TextMeshProUGUI progressText;
     public TextMeshProUGUI currentKeysText;
     public Image handImage;
+    public int lives = 3;
+    public int errors = 0;
+    public int wordsCompleted = 0;
+    public int highScore = 0;
+    public bool practiceMode = false; // Si es true, no hay vidas ni errores
+    private float startTime;
+    private float endTime;
+
+    public TextMeshProUGUI livesText;
+    public TextMeshProUGUI errorsText;
+    public TextMeshProUGUI wordsCompletedText;
+    public TextMeshProUGUI precisionText;
+    public TextMeshProUGUI highScoreText;
 
 	private bool hasActiveWord;
 	private Word activeWord;
@@ -29,17 +42,35 @@ public class WordManager : MonoBehaviour {
         UpdateUI();
         UpdateHandImage(WordGenerator.GetCurrentLevel());
         ShowInitialLevelMessage();
+        highScore = PlayerPrefs.GetInt("HighScore", 0);
+        startTime = Time.time;
     }
 
     void UpdateUI() {
         if (levelText != null) {
-            levelText.text = $"Nivel: {WordGenerator.GetCurrentLevel()}";
+            levelText.text = "Nivel: " + WordGenerator.GetCurrentLevel();
         }
         if (progressText != null) {
-            progressText.text = $"Progreso: {Mathf.Round(WordGenerator.GetLevelProgress() * 100)}%";
+            progressText.text = "Progreso: " + Mathf.Round(WordGenerator.GetLevelProgress() * 100) + "%";
         }
         if (currentKeysText != null) {
-            currentKeysText.text = $"Teclas: {string.Join(", ", WordGenerator.GetCurrentLevelKeys())}";
+            currentKeysText.text = "Teclas: " + string.Join(", ", WordGenerator.GetCurrentLevelKeys());
+        }
+        if (livesText != null) {
+            livesText.text = "Vidas: " + lives;
+        }
+        if (errorsText != null) {
+            errorsText.text = "Errores: " + errors;
+        }
+        if (wordsCompletedText != null) {
+            wordsCompletedText.text = "Palabras: " + wordsCompleted;
+        }
+        if (precisionText != null) {
+            float precision = wordsCompleted + errors > 0 ? 100f * (float)wordsCompleted / (wordsCompleted + errors) : 100f;
+            precisionText.text = "Precisión: " + precision.ToString("F1") + "%";
+        }
+        if (highScoreText != null) {
+            highScoreText.text = "Récord: " + highScore;
         }
     }
 
@@ -65,23 +96,28 @@ public class WordManager : MonoBehaviour {
         if (lowestWord != null && lowestWord.GetNextLetter() != '\0') {
             if (hasActiveWord && activeWord == lowestWord && activeWord.GetNextLetter() != '\0') {
                 if (activeWord.GetNextLetter() == letter) {
-                    activeWord.TypeLetter();
+				activeWord.TypeLetter();
+                } else {
+                    RegisterError();
                 }
             } else if (!hasActiveWord) {
                 if (lowestWord.GetNextLetter() == letter) {
                     activeWord = lowestWord;
-                    hasActiveWord = true;
+					hasActiveWord = true;
                     lowestWord.TypeLetter();
-                }
-            }
+                } else {
+                    RegisterError();
+			}
+		}
 
             if (hasActiveWord && activeWord.WordTyped()) {
-                score++;
+            score++;
+                wordsCompleted++;
                 WordGenerator.WordCompleted();
                 UpdateUI();
-                hasActiveWord = false;
-                words.Remove(activeWord);
-            }
+            hasActiveWord = false;
+			words.Remove(activeWord);
+		}
         }
     }
 
@@ -130,4 +166,43 @@ public class WordManager : MonoBehaviour {
             wordSpawner.SpawnDisplayMessage(msg);
         }
     }
+
+    private void RegisterError() {
+        if (!practiceMode) {
+            errors++;
+            lives--;
+            Debug.Log("¡Error! Vidas restantes: " + lives + ", Errores: " + errors);
+            if (lives <= 0) {
+                EndGame();
+            }
+        } else {
+            errors++;
+            Debug.Log("¡Error en práctica libre! Total errores: " + errors);
+        }
+    }
+
+    private void EndGame() {
+        endTime = Time.time;
+        float totalTime = endTime - startTime;
+        float precision = wordsCompleted > 0 ? 100f * (float)wordsCompleted / (wordsCompleted + errors) : 0f;
+        Debug.Log("\n--- FIN DEL JUEGO ---");
+        Debug.Log("Puntaje: " + score);
+        Debug.Log("Palabras completadas: " + wordsCompleted);
+        Debug.Log("Errores: " + errors);
+        Debug.Log("Precisión: " + precision.ToString("F1") + "%");
+        Debug.Log("Tiempo total: " + totalTime.ToString("F1") + " segundos");
+        if (score > highScore) {
+            highScore = score;
+            PlayerPrefs.SetInt("HighScore", highScore);
+            Debug.Log("¡Nuevo récord! High Score: " + highScore);
+        } else {
+            Debug.Log("High Score: " + highScore);
+        }
+        // Reiniciar variables para nueva partida
+        score = 0;
+        lives = 3;
+        errors = 0;
+        wordsCompleted = 0;
+        startTime = Time.time;
+	}
 }
