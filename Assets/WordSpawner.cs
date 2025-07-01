@@ -31,11 +31,10 @@ public class WordSpawner : MonoBehaviour {
         GameObject wordObj = Instantiate(wordPrefab, displayPosition, Quaternion.identity, wordCanvas);
         WordDisplay wordDisplay = wordObj.GetComponent<WordDisplay>();
         
-        // Crear palabra de solo visualización sin almacenarla en la lista de palabras activas
+       
         wordDisplay.SetWord(message, true);
         
-        // Opcional: añadir sonido de notificación aquí
-        // AudioSource.PlayClipAtPoint(levelUpSound, transform.position);
+        
     }
 
     // Método para limpiar palabras que salen de pantalla

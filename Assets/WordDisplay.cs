@@ -11,12 +11,12 @@ public class WordDisplay : MonoBehaviour {
     public float displayDuration = 5f; // Duración para palabras de solo mostrar
 
     private bool isDisplayOnlyWord = false;
-    private string originalWord; // Store the original word to manipulate text color
+    private string originalWord; 
 
     public void SetWord (string word, bool isDisplayOnly = false)
 	{
 		text.text = word;
-        originalWord = word; // Store the original word
+        originalWord = word; 
         isDisplayOnlyWord = isDisplayOnly;
 
         if (isDisplayOnlyWord)
