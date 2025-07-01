@@ -4,7 +4,7 @@ using UnityEngine;
 using System; // Necesario para Action
 
 public class WordGenerator : MonoBehaviour {
-    // Niveles de aprendizaje con sus respectivas teclas
+
     private static Dictionary<int, string[]> learningLevels = new Dictionary<int, string[]>() {
         {1, new string[] {"j", "f"}}, // Nivel 1: j y f
         {2, new string[] {"j", "f", "k", "d"}}, // Nivel 2: añade k y d
