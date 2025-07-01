@@ -43,7 +43,7 @@ public class WordGenerator : MonoBehaviour {
     public static event Action<int, string[]> OnLevelAdvanced; // Evento que se dispara al avanzar de nivel
 
     private static void AdvanceLevel() {
-        currentLevel++;
+        currentLevel++; //para el nivel
         wordsCompletedInLevel = 0;
         // En lugar de Debug.Log, disparamos el evento
         OnLevelAdvanced?.Invoke(currentLevel, learningLevels[currentLevel]);
