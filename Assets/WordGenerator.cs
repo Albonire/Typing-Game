@@ -40,7 +40,7 @@ public class WordGenerator : MonoBehaviour {
         }
     }
 
-    public static event Action<int, string[]> OnLevelAdvanced; // Evento que se dispara al avanzar de nivel
+    public static event Action<int, string[]> OnLevelAdvanced; 
 
     private static void AdvanceLevel() {
         currentLevel++; 
