@@ -21,7 +21,7 @@ public class WordGenerator : MonoBehaviour {
 
     private static Dictionary<int, string[]> levelWords = new Dictionary<int, string[]>() {
         {1, new string[] {"jf", "fj", "jj", "ff", "jjf", "ffj"}},
-        {2, new string[] {"jk", "fd", "kf", "dj", "jkfd", "fdjk"}},
+        {2, new string[] {"jk", "fd", "kf", "dj", "jkfd", "fdjk", "jkfdj", "fdjkf"}},
         {3, new string[] {"jks", "fdl", "sljk", "slfd", "jkfdsl", "slfdjk"}},
         {4, new string[] {"jksa", "fdl;", "asljk", ";slfd", "jkfdsla", "slfdjk;"}},
         {5, new string[] {"jksagh", "fdlgh;", "ghasljk", ";slfdgh", "jkfdslag", "slfdjk;gh"}},
